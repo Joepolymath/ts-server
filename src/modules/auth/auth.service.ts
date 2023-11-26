@@ -22,11 +22,15 @@ class AuthServices {
       email: payload.email,
       phone: payload.phone,
     });
-    payload.role = 'admin';
+    payload.role = Role.ADMIN;
 
-    if (!foundUser) {
-      return new HttpException(400, 'User not found');
+    if (foundUser) {
+      return new HttpException(400, 'User already exists');
     }
+
+    const salt = await bcrypt.generateSalt(Number(BCRYPT_SALT));
+    const hashedPassword = await bcrypt.hashPassword(payload.password, salt);
+    payload.password = hashedPassword;
 
     const userInstance = await this.userRepo.create(payload);
 
@@ -41,11 +45,15 @@ class AuthServices {
       phone: payload.phone,
     });
 
-    if (!foundUser) {
-      return new HttpException(400, 'User not found');
+    if (foundUser) {
+      return new HttpException(400, 'User already exists');
     }
 
-    payload.role = 'role';
+    payload.role = Role.USER;
+
+    const salt = await bcrypt.generateSalt(Number(BCRYPT_SALT));
+    const hashedPassword = await bcrypt.hashPassword(payload.password, salt);
+    payload.password = hashedPassword;
 
     const userInstance = await this.userRepo.create(payload);
 

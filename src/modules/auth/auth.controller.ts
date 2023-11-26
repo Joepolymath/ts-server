@@ -21,6 +21,7 @@ export default class AuthController implements Controller {
     this.router.post(`${this.path}/signup/admins`, this.signUpAdmin);
     this.router.post(`${this.path}/signup/users`, this.signUpUser);
     this.router.post(`${this.path}/login/admins`, this.loginAdmin);
+    this.router.post(`${this.path}/login/users`, this.loginUser);
   }
 
   private async signUpAdmin(

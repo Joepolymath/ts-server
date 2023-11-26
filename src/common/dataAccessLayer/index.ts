@@ -19,6 +19,12 @@ class DAL<T extends Document> {
     populateData?: string[],
     selectData?: string
   ) {
+    if (!populateData) {
+      populateData = ['', ''];
+    }
+    if (!selectData) {
+      selectData = '';
+    }
     return await this.model
       .find(query)
       .populate(populateData[0], populateData[1])
@@ -30,6 +36,12 @@ class DAL<T extends Document> {
     populateData?: string[],
     selectData?: string
   ) {
+    if (!populateData) {
+      populateData = ['', ''];
+    }
+    if (!selectData) {
+      selectData = '';
+    }
     return await this.model
       .findOne(query)
       .populate(populateData[0], populateData[1])
